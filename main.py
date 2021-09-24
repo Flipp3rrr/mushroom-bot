@@ -5,7 +5,8 @@ import requests
 def get_setting(name):
     purpose = name
     if os.path.exists("settings.json"):
-        settings = open("settings.json", "r").read()
+        with open("settings.json") as settings_file:
+            settings = json.load(settings_file)
 
         if name in settings:
             return_value = settings[name]
@@ -17,7 +18,10 @@ def get_setting(name):
 
             settings.update(new_dict)
             settings_file = open("settings.json", "w+")
-            json.dump(settings, "settings.json", indent = 4)
+            json.dump(settings, settings_file, indent = 4)
+
+            return_value = settings[name]
+            return(return_value)
     else:
         new_key = name
         new_value = input("{purpose}: ".format(purpose = purpose))
@@ -27,5 +31,10 @@ def get_setting(name):
         settings_file = open("settings.json", "w+")
         json.dump(settings, settings_file, indent = 4)
 
+        return_value = settings[name]
+        return(return_value)
+
 id1 = get_setting("id")
+token = get_setting("token")
 print(id1)
+print(token)
