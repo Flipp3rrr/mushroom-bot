@@ -9,5 +9,3 @@ Currently you can choose from any of these collections:
 * mushrooms
 * plants
 * snakes
-## Credit
-shroom 1-4: hay#1013
