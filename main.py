@@ -1,6 +1,6 @@
 import os
 import json
-import requests
+import discord
 
 # Settings are saved in 'settings.json', settings are saved in a dictionary. This function gets the value of a key specified ('name').
 def get_setting(name):
