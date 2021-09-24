@@ -34,7 +34,5 @@ def get_setting(name):
         return_value = settings[name]
         return(return_value)
 
-id1 = get_setting("id")
+app_id = get_setting("app_id")
 token = get_setting("token")
-print(id1)
-print(token)
