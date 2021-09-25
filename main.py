@@ -4,11 +4,14 @@ import discord
 from discord.ext import commands
 import random
 
+run_dir = os.path.dirname(__file__)
+
 # Settings are saved in 'settings.json', settings are saved in a dictionary. This function gets the value of a key specified ('name').
 def get_setting(name):
     purpose = name
-    if os.path.exists("settings.json"):
-        with open("settings.json") as settings_file:
+    settings_file_path = os.path.join(run_dir, "settings.json")
+    if os.path.existssettings_file_path):
+        with opensettings_file_path) as settings_file:
             settings = json.load(settings_file)
 
         if name in settings:
@@ -20,7 +23,7 @@ def get_setting(name):
             new_dict = {"{key}".format(key = new_key): "{value}".format(value = new_value)}
 
             settings.update(new_dict)
-            settings_file = open("settings.json", "w+")
+            settings_file = open(settings_file_path, "w+")
             json.dump(settings, settings_file, indent = 4)
 
             return_value = settings[name]
@@ -31,14 +34,13 @@ def get_setting(name):
         new_dict = {"{key}".format(key = new_key): "{value}".format(value = new_value)}
 
         settings = new_dict
-        settings_file = open("settings.json", "w+")
+        settings_file = open(settings_file_path, "w+")
         json.dump(settings, settings_file, indent = 4)
 
         return_value = settings[name]
         return(return_value)
 
 token = get_setting("token")
-run_dir = os.path.dirname(__file__)
 picture_dir = os.path.join(run_dir, "pictures")
 
 intents = discord.Intents.default()
