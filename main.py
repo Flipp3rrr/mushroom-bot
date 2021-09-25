@@ -41,6 +41,8 @@ def get_setting(name):
         return(return_value)
 
 token = get_setting("token")
+bot_invite = "https://discord.com/api/oauth2/authorize?client_id=890578768849158175&permissions=2147534848&scope=bot"
+github_link = "https://github.com/Flipp3rrr/mushroom-bot"
 picture_dir = os.path.join(run_dir, "pictures")
 
 intents = discord.Intents.default()
@@ -77,5 +79,9 @@ async def picture(ctx, collection:str, description = "Get a random image from a 
     image_path = os.path.join(author_dir, image_chosen)
 
     await ctx.send("Here's an image from the '{collection}' collection, submitted by {author}".format(collection = collection, author = author_chosen), file=discord.File(image_path))
+
+@bot.command()
+async def info(ctx, description = "Get information about the bot"):
+    await ctx.send("I was made by Flipp3rrr#6969. My code is available at {github} and you can invite me with {invite}".format(github = github_link, invite = bot_invite))
 
 bot.run(token)
