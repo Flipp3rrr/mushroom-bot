@@ -11,7 +11,7 @@ def get_setting(name):
     purpose = name
     settings_file_path = os.path.join(run_dir, "settings.json")
     if os.path.exists(settings_file_path):
-        with opensettings_file_path) as settings_file:
+        with open(settings_file_path) as settings_file:
             settings = json.load(settings_file)
 
         if name in settings:
