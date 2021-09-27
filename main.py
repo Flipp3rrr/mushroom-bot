@@ -29,7 +29,7 @@ def get_setting(name):
 
             return_value = settings[name]
             return(return_value)
-            
+
     else:
         new_key = name
         new_value = input("{purpose}: ".format(purpose = purpose))
@@ -89,8 +89,8 @@ async def picture(ctx, collection:str, description = "Get a random image from a 
 @bot.command()
 async def info(ctx, description = "Get information about the bot"):
     embed = discord.Embed(title = "Information", description = "I'm a bot made by Flipp3rrr#6969. I got various picture related commands and some other fun commands! Find out more about my commands with `{prefix}help`".format(prefix = bot_prefix))
-    embed.add_field(name = "GitHub", value = github_link, inline = True)
     embed.add_field(name = "Invite", value = bot_invite, inline = True)
+    embed.add_field(name = "GitHub", value = github_link, inline = True)
     embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
     await ctx.send(embed = embed)
 
