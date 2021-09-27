@@ -42,21 +42,20 @@ def get_setting(name):
         return_value = settings[name]
         return(return_value)
 
-token = get_setting("token")
-bot_invite = "https://discord.com/api/oauth2/authorize?client_id=890578768849158175&permissions=2147534848&scope=bot"
-github_link = "https://github.com/Flipp3rrr/mushroom-bot"
-picture_dir = os.path.join(run_dir, "pictures")
-
-intents = discord.Intents.default()
-
-bot_prefix = get_setting("prefix")
-bot = commands.Bot(command_prefix=bot_prefix, intents=intents)
-
 # Thanks to StackOverflow 'https://stackoverflow.com/questions/7099290/how-to-ignore-hidden-files-using-os-listdir'
 def listdir_nohidden(path):
     for f in os.listdir(path):
         if not f.startswith('.'):
             yield f
+
+collections = list(listdir_nohidden(picture_dir))
+token = get_setting("token")
+bot_invite = "https://discord.com/api/oauth2/authorize?client_id=890578768849158175&permissions=2147534848&scope=bot"
+github_link = "https://github.com/Flipp3rrr/mushroom-bot"
+picture_dir = os.path.join(run_dir, "pictures")
+intents = discord.Intents.default()
+bot_prefix = get_setting("prefix")
+bot = commands.Bot(command_prefix=bot_prefix, intents=intents)
 
 @bot.event
 async def on_ready():
@@ -66,7 +65,6 @@ async def on_ready():
 
 @bot.command()
 async def collections(ctx, description = "List all available collections"):
-    collections = list(listdir_nohidden(picture_dir))
     collections.insert(0, "")
 
     embed = discord.Embed(title = "Collections", description = "{list}".format(list = "\n * ".join(collections)))
