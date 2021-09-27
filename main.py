@@ -114,11 +114,15 @@ async def help(ctx, command: typing.Optional[str] = "default_help"):
 @bot.command()
 async def collections(ctx):
     collections_list.sort()
+    # Insert empty item into the list to fix the formatting
     collections_list.insert(0, "")
 
     embed = discord.Embed(title = "Collections", description = "{list}".format(list = "\n * ".join(collections_list)))
     embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
     await ctx.send(embed = embed)
+
+    # Reset the collections_list, otherwise it would accumulate empty items over time
+    collections_list = list(listdir_nohidden(picture_dir))
 
 @bot.command()
 async def picture(ctx, collection:str, description = "Get a random image from a collection specified"):
