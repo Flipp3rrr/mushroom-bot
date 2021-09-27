@@ -48,7 +48,8 @@ picture_dir = os.path.join(run_dir, "pictures")
 
 intents = discord.Intents.default()
 
-bot = commands.Bot(command_prefix=get_setting("prefix"), intents=intents)
+bot_prefix = get_setting("prefix")
+bot = commands.Bot(command_prefix=bot_prefix, intents=intents)
 
 # Thanks to StackOverflow 'https://stackoverflow.com/questions/7099290/how-to-ignore-hidden-files-using-os-listdir'
 def listdir_nohidden(path):
@@ -59,6 +60,8 @@ def listdir_nohidden(path):
 @bot.event
 async def on_ready():
     print("Logged in as {user} ({id})".format(user = bot.user.name, id = bot.user.id))
+    presence = discord.Game("prefix is '{prefix}'".format(prefix = bot_prefix))
+    await bot.change_presence(status=discord.Status.idle, activity=presence)
 
 @bot.command()
 async def list_collections(ctx, description = "List all available collections"):
