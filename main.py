@@ -66,18 +66,20 @@ async def on_ready():
 @bot.command()
 async def list_collections(ctx, description = "List all available collections"):
     collections = listdir_nohidden(picture_dir)
-    await ctx.send("Possible collections: {list}".format(list = collections))
+    await ctx.send("Possible collections: {list}".format(list = list(collections)))
 
-@bot.command()
+@bot.command(pass_context = True)
 async def picture(ctx, collection:str, description = "Get a random image from a collection specified"):
     collection_dir = pathlib.Path(picture_dir) / collection
 
     jpegs = list(collection_dir.glob("**/*.jpg"))
     choice = random.choice(jpegs)
-    latest_parent = choice.parent.name
-    print("Chose {file} from {author}".format(file = choice, author = latest_parent))
 
-    await ctx.send("Here's an image from the '{collection}' collection, submitted by {author}".format(collection = collection, author = latest_parent), file=discord.File(choice))
+    embed = discord.Embed(title = "{collection} picture".format(collection = collection))
+    image = discord.File(choice, filename = choice.name)
+    embed.set_image(url = "attachment://{file}".format(file = choice.name))
+    embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
+    await ctx.send(file = image, embed = embed)
 
 @bot.command()
 async def info(ctx, description = "Get information about the bot"):
