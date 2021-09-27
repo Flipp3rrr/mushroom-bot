@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 import random
 import pathlib
+import typing
 
 run_dir = os.path.dirname(__file__)
 
@@ -48,14 +49,16 @@ def listdir_nohidden(path):
         if not f.startswith('.'):
             yield f
 
-collections = list(listdir_nohidden(picture_dir))
+picture_dir = os.path.join(run_dir, "pictures")
+collections_list = list(listdir_nohidden(picture_dir))
 token = get_setting("token")
+bot_prefix = get_setting("prefix")
 bot_invite = "https://discord.com/api/oauth2/authorize?client_id=890578768849158175&permissions=2147534848&scope=bot"
 github_link = "https://github.com/Flipp3rrr/mushroom-bot"
-picture_dir = os.path.join(run_dir, "pictures")
+
 intents = discord.Intents.default()
-bot_prefix = get_setting("prefix")
 bot = commands.Bot(command_prefix=bot_prefix, intents=intents)
+bot.remove_command("help")
 
 @bot.event
 async def on_ready():
@@ -64,14 +67,41 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.idle, activity=presence)
 
 @bot.command()
-async def collections(ctx, description = "List all available collections"):
-    collections.insert(0, "")
+async def help(ctx, command: typing.Optional[str] = "default_help"):
+    if command == "default_help":
+        embed = discord.Embed(title = "Help", description = "My prefix is `{prefix}`, get more informations on specific commands with `{prefix}help <command>`.".format(prefix = bot_prefix))
+        embed.add_field(name = "Commands", value = "* `collections`\n* `info`\n* `picture`")
+        embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
+        await ctx.send(embed = embed)
 
-    embed = discord.Embed(title = "Collections", description = "{list}".format(list = "\n * ".join(collections)))
+    elif command == "collections":
+        embed = discord.Embed(title = "Help (collections)", description = "Sends a message containing a list of available collections.")
+        embed.add_field(name = "Example", value = "`{prefix}collections`".format(prefix = bot_prefix))
+        embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
+        await ctx.send(embed = embed)
+
+    elif command == "info":
+        embed = discord.Embed(title = "Help (info)", description = "Sends a message containing relevant information to the bot.")
+        embed.add_field(name = "Example", value = "`{prefix}info`".format(prefix = bot_prefix))
+        embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
+        await ctx.send(embed = embed)
+
+    elif command == "picture":
+        embed = discord.Embed(title = "Help (picture)", description = "Sends a random image from the specified collection.")
+        embed.add_field(name = "Example", value = "`{prefix}picture <collection>`".format(prefix = bot_prefix))
+        embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
+        await ctx.send(embed = embed)
+
+@bot.command()
+async def collections(ctx):
+    collections_list.sort()
+    collections_list.insert(0, "")
+
+    embed = discord.Embed(title = "Collections", description = "{list}".format(list = "\n * ".join(collections_list)))
     embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
     await ctx.send(embed = embed)
 
-@bot.command(pass_context = True)
+@bot.command()
 async def picture(ctx, collection:str, description = "Get a random image from a collection specified"):
     collection_dir = pathlib.Path(picture_dir) / collection
 
