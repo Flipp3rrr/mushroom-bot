@@ -1,4 +1,4 @@
-# mushroom-bot
+# Mushroom Bot
 Mushroom bot is a bot with various picture related commands. You can invite it with [this link](https://discord.com/api/oauth2/authorize?client_id=890578768849158175&permissions=2147534848&scope=bot).
 ## Features
 | Command            | Arguments      | Result                                                                 |
