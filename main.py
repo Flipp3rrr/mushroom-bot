@@ -29,6 +29,7 @@ def get_setting(name):
 
             return_value = settings[name]
             return(return_value)
+            
     else:
         new_key = name
         new_value = input("{purpose}: ".format(purpose = purpose))
@@ -60,13 +61,17 @@ def listdir_nohidden(path):
 @bot.event
 async def on_ready():
     print("Logged in as {user} ({id})".format(user = bot.user.name, id = bot.user.id))
-    presence = discord.Game("prefix is '{prefix}'".format(prefix = bot_prefix))
+    presence = discord.Game("do '{prefix}help'".format(prefix = bot_prefix))
     await bot.change_presence(status=discord.Status.idle, activity=presence)
 
 @bot.command()
-async def list_collections(ctx, description = "List all available collections"):
-    collections = listdir_nohidden(picture_dir)
-    await ctx.send("Possible collections: {list}".format(list = list(collections)))
+async def collections(ctx, description = "List all available collections"):
+    collections = list(listdir_nohidden(picture_dir))
+    collections.insert(0, "")
+
+    embed = discord.Embed(title = "Collections", description = "{list}".format(list = "\n * ".join(collections)))
+    embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
+    await ctx.send(embed = embed)
 
 @bot.command(pass_context = True)
 async def picture(ctx, collection:str, description = "Get a random image from a collection specified"):
@@ -83,6 +88,10 @@ async def picture(ctx, collection:str, description = "Get a random image from a 
 
 @bot.command()
 async def info(ctx, description = "Get information about the bot"):
-    await ctx.send("I was made by Flipp3rrr#6969. My code is available at {github} and you can invite me with {invite}".format(github = github_link, invite = bot_invite))
+    embed = discord.Embed(title = "Information", description = "I'm a bot made by Flipp3rrr#6969. I got various picture related commands and some other fun commands! Find out more about my commands with `{prefix}help`".format(prefix = bot_prefix))
+    embed.add_field(name = "GitHub", value = github_link, inline = True)
+    embed.add_field(name = "Invite", value = bot_invite, inline = True)
+    embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
+    await ctx.send(embed = embed)
 
 bot.run(token)
