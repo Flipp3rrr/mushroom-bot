@@ -66,6 +66,24 @@ async def on_ready():
     presence = discord.Game("do '{prefix}help'".format(prefix = bot_prefix))
     await bot.change_presence(status=discord.Status.idle, activity=presence)
 
+@bot.event
+async def on_message(message):
+    if message.content.startswith("pretty"):
+        for collection in collections_list:
+            if collection in message.content:
+                collection_dir = pathlib.Path(picture_dir) / collection
+                
+                jpegs = list(collection_dir.glob("**/*.jpg"))
+                choice = random.choice(jpegs)
+
+                embed = discord.Embed(title = "{collection} picture".format(collection = collection))
+                image = discord.File(choice, filename = choice.name)
+                embed.set_image(url = "attachment://{file}".format(file = choice.name))
+                embed.set_footer(text = "Requested by {message_author}".format(message_author = message.author))
+                await message.channel.send(file = image, embed = embed)
+    
+    await bot.process_commands(message)
+
 @bot.command()
 async def help(ctx, command: typing.Optional[str] = "default_help"):
     if command == "default_help":
@@ -88,7 +106,8 @@ async def help(ctx, command: typing.Optional[str] = "default_help"):
 
     elif command == "picture":
         embed = discord.Embed(title = "Help (picture)", description = "Sends a random image from the specified collection.")
-        embed.add_field(name = "Example", value = "`{prefix}picture <collection>`".format(prefix = bot_prefix))
+        embed.add_field(name = "Example", value = "`{prefix}picture <collection>`".format(prefix = bot_prefix), inline = True)
+        embed.add_field(name = "Example 2", value = "`pretty <collection>`".format(prefix = bot_prefix), inline = True)
         embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
         await ctx.send(embed = embed)
 
