@@ -71,13 +71,14 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if message.content.startswith("pretty"):
+    message_lowercase = message.content.lower()
+    if message_lowercase.startswith("pretty"):
         # Reset the collections_list, otherwise it would accumulate empty items over time
         collections_list = list(listdir_nohidden(picture_dir))
-        if message.content[-1] != "s":
-            message_edited = message.content + "s"
+        if message_lowercase[-1] != "s":
+            message_edited = message_lowercase + "s"
         else:
-            message_edited = message.content
+            message_edited = message_lowercase
 
         for collection in collections_list:
             if collection in message_edited:
@@ -137,15 +138,16 @@ async def collections(ctx):
 
 @bot.command()
 async def picture(ctx, collection:str):
-    if collection[-1] != "s":
-        collection = collection + "s"
+    collection_lowercase = collection.lower()
+    if collection_lowercase[-1] != "s":
+        collection_lowercase = collection_lowercase + "s"
 
-    collection_dir = pathlib.Path(picture_dir) / collection
+    collection_dir = pathlib.Path(picture_dir) / collection_lowercase
 
     jpegs = list(collection_dir.glob("**/*.jpg"))
     choice = random.choice(jpegs)
 
-    embed = discord.Embed(title = "{collection} picture".format(collection = collection))
+    embed = discord.Embed(title = "{collection} picture".format(collection = collection_lowercase))
     image = discord.File(choice, filename = choice.name)
     embed.set_image(url = "attachment://{file}".format(file = choice.name))
     embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
