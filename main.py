@@ -121,7 +121,7 @@ async def collections(ctx):
     await ctx.send(embed = embed)
 
 @bot.command()
-async def picture(ctx, collection:str, description = "Get a random image from a collection specified"):
+async def picture(ctx, collection:str):
     collection_dir = pathlib.Path(picture_dir) / collection
 
     jpegs = list(collection_dir.glob("**/*.jpg"))
