@@ -68,8 +68,9 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
+
     if message.content.startswith("pretty"):
         # Reset the collections_list, otherwise it would accumulate empty items over time
         collections_list = list(listdir_nohidden(picture_dir))
