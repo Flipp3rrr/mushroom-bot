@@ -19,3 +19,8 @@ Currently you can choose from any of these collections:
 * plants
 * snakes
 * z.misc (this isn't really a collection, but it contains various images that have not been put into a collection)
+## Requirements
+Mushroom Bot requires `discord.py`, `Pillow` and `libjpeg`.
+* `python3 -m pip -U discord.py`
+* `python3 -m pip -U Pillow`
+* `libjpeg` should be installed manually, if it isn't already.
