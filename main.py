@@ -74,8 +74,13 @@ async def on_message(message):
     if message.content.startswith("pretty"):
         # Reset the collections_list, otherwise it would accumulate empty items over time
         collections_list = list(listdir_nohidden(picture_dir))
+        if message.content[-1] != "s":
+            message_edited = message.content + "s"
+        else:
+            message_edited = message.content
+
         for collection in collections_list:
-            if collection in message.content:
+            if collection in message_edited:
                 collection_dir = pathlib.Path(picture_dir) / collection
                 
                 jpegs = list(collection_dir.glob("**/*.jpg"))
@@ -130,6 +135,9 @@ async def collections(ctx):
 
 @bot.command()
 async def picture(ctx, collection:str):
+    if collection[-1] != "s":
+        collection = collection + "s"
+
     collection_dir = pathlib.Path(picture_dir) / collection
 
     jpegs = list(collection_dir.glob("**/*.jpg"))
