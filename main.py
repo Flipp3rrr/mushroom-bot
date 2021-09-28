@@ -128,8 +128,10 @@ async def collections(ctx):
     collections_list.sort()
     # Insert empty item into the list to fix the formatting
     collections_list.insert(0, "")
+    # Remove z.misc folder, since you can't acces it with the 'picture' command
+    del collections_list[-1]
 
-    embed = discord.Embed(title = "Collections", description = "{list}".format(list = "\n * ".join(collections_list)))
+    embed = discord.Embed(title = "Collections", description = "Collections can be specified with or without the 's' at the end.\n{list}".format(list = "\n * ".join(collections_list)))
     embed.set_footer(text = "Requested by {message_author}".format(message_author = ctx.message.author))
     await ctx.send(embed = embed)
 
