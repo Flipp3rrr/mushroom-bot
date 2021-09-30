@@ -165,4 +165,13 @@ async def info(ctx, description = "Get information about the bot"):
     embed.add_field(name = "GitHub", value = github_link, inline = True)
     await ctx.send(embed = embed)
 
+@bot.command()
+async def stop(ctx):
+    bot_author_id = get_setting("bot_author_id")
+    if int(ctx.message.author.id) == int(bot_author_id):
+        await ctx.send("Stopping bot...")
+        await bot.logout()
+    else:
+        await ctx.send("Invalid permissions! Your ID is `{id}`, the correct ID is `{author_id}`.".format(id = ctx.message.author.id, author_id = bot_author_id))
+
 bot.run(token)
