@@ -5,6 +5,7 @@ from discord.ext import commands
 import random
 import pathlib
 import typing
+import re
 
 run_dir = os.path.dirname(__file__)
 
@@ -94,11 +95,25 @@ async def on_message(message):
                 if author is None:
                     author = await bot.fetch_user(choice.parent.name)
 
-                embed = discord.Embed(title = "{collection} picture".format(collection = collection))
-                image = discord.File(choice, filename = choice.name)
-                embed.set_image(url = "attachment://{file}".format(file = choice.name))
-                embed.set_footer(text = "Image submitted by {author}".format(author = author))
-                await message.channel.send(file = image, embed = embed)
+                message_split = re.split("@!", message_lowercase)
+                message_split_length = len(message_split)
+
+                if message_split_length != 1:
+                    mention_id1 = message_split[message_split_length - 1]
+                    mention_id = mention_id1[:-1]
+
+                    embed = discord.Embed(title = "{collection} picture".format(collection = collection), description = "Hey <@!{mention}>, {user} gave you a pretty {collection}!".format(mention = mention_id, user = message.author, collection = collection))
+                    image = discord.File(choice, filename = choice.name)
+                    embed.set_image(url = "attachment://{file}".format(file = choice.name))
+                    embed.set_footer(text = "Image submitted by {author}".format(author = author))
+                    await message.channel.send(file = image, embed = embed)
+                
+                else:
+                    embed = discord.Embed(title = "{collection} picture".format(collection = collection))
+                    image = discord.File(choice, filename = choice.name)
+                    embed.set_image(url = "attachment://{file}".format(file = choice.name))
+                    embed.set_footer(text = "Image submitted by {author}".format(author = author))
+                    await message.channel.send(file = image, embed = embed)
     
     await bot.process_commands(message)
 
@@ -139,7 +154,7 @@ async def collections(ctx):
     await ctx.send(embed = embed)
 
 @bot.command()
-async def picture(ctx, collection:str):
+async def picture(ctx, collection:str, mention: typing.Optional[str] = "no_mention"):
     collection_lowercase = collection.lower()
     if collection_lowercase[-1] != "s":
         collection_lowercase = collection_lowercase + "s"
@@ -149,13 +164,22 @@ async def picture(ctx, collection:str):
     jpegs = list(collection_dir.glob("**/*.jpg"))
     choice = random.choice(jpegs)
     author = bot.get_user(choice.parent.name)
+
     if author is None:
         author = await bot.fetch_user(choice.parent.name)
 
-    embed = discord.Embed(title = "{collection} picture".format(collection = collection_lowercase))
-    image = discord.File(choice, filename = choice.name)
-    embed.set_image(url = "attachment://{file}".format(file = choice.name))
-    embed.set_footer(text = "Image submitted by {author}".format(author = author))
+    if mention != "no_mention":
+        embed = discord.Embed(title = "{collection} picture".format(collection = collection), description = "Hey {mention}, {user} gave you a pretty {collection}!".format(mention = mention, user = ctx.message.author, collection = collection))
+        image = discord.File(choice, filename = choice.name)
+        embed.set_image(url = "attachment://{file}".format(file = choice.name))
+        embed.set_footer(text = "Image submitted by {author}".format(author = author))
+
+    else:
+        embed = discord.Embed(title = "{collection} picture".format(collection = collection))
+        image = discord.File(choice, filename = choice.name)
+        embed.set_image(url = "attachment://{file}".format(file = choice.name))
+        embed.set_footer(text = "Image submitted by {author}".format(author = author))
+
     await ctx.send(file = image, embed = embed)
 
 @bot.command()
