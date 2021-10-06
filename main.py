@@ -80,8 +80,13 @@ async def on_message(message):
     if message_lowercase.startswith("pretty"):
         # Reset the collections_list, otherwise it would accumulate empty items over time
         collections_list = list(listdir_nohidden(picture_dir))
-        if message_lowercase[-1] != "s":
-            message_edited = message_lowercase + "s"
+
+        message_for_check_list = re.split("<", message_lowercase)
+        message_for_check = message_for_check_list[0]
+        message_for_check = message_for_check.strip()
+
+        if message_for_check[-1] != "s":
+            message_edited = message_for_check + "s" + message_for_check_list[1]
         else:
             message_edited = message_lowercase
 
