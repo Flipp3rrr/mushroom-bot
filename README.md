@@ -17,6 +17,7 @@ Currently you can choose from any of these collections:
 * insects
 * mushrooms
 * plants
+* sheep
 * snakes
 ## Requirements
 Mushroom Bot requires `discord.py`.
