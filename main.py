@@ -85,8 +85,12 @@ async def on_message(message):
         message_for_check = message_for_check_list[0]
         message_for_check = message_for_check.strip()
 
-        if message_for_check[-1] != "s":
+        if message_for_check[-1] != "s" and len(message_for_check_list) != 1:
             message_edited = message_for_check + "s" + message_for_check_list[1]
+
+        elif message_for_check[-1] != "s" and len(message_for_check_list) == 1:
+            message_edited = message_for_check + "s"
+
         else:
             message_edited = message_lowercase
 
