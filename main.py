@@ -52,10 +52,11 @@ def listdir_nohidden(path):
 
 picture_dir = os.path.join(run_dir, "pictures")
 collections_list = list(listdir_nohidden(picture_dir))
-token = get_setting("token")
-bot_prefix = get_setting("prefix")
-bot_invite = "https://discord.com/api/oauth2/authorize?client_id=890578768849158175&permissions=2147534848&scope=bot"
-github_link = "https://github.com/Flipp3rrr/mushroom-bot"
+bot_token = get_setting("bot_token")
+bot_prefix = get_setting("bot_prefix")
+bot_invite = get_setting("bot_invite")
+github_link = get_setting("github_link")
+discord_server = get_setting("discord_server")
 
 intents = discord.Intents.default()
 intents.members = True
@@ -194,7 +195,8 @@ async def picture(ctx, collection:str, mention: typing.Optional[str] = "no_menti
 @bot.command()
 async def info(ctx):
     embed = discord.Embed(title = "Information", description = "I'm a bot made by Flipp3rrr#6969. I got various picture related commands and some other fun commands! Find out more about my commands with `{prefix}help`".format(prefix = bot_prefix))
-    embed.add_field(name = "Invite", value = bot_invite, inline = True)
+    embed.add_field(name = "Invite", value = bot_invite, inline = False)
+    embed.add_field(name = "Discord Server", value = discord_server, inline = True)
     embed.add_field(name = "GitHub", value = github_link, inline = True)
     await ctx.send(embed = embed)
 
@@ -207,4 +209,4 @@ async def stop(ctx):
     else:
         await ctx.send("Invalid permissions! Your ID is `{id}`, the correct ID is `{author_id}`.".format(id = ctx.message.author.id, author_id = bot_author_id))
 
-bot.run(token)
+bot.run(bot_token)
