@@ -1,5 +1,5 @@
 # Mushroom Bot
-Mushroom bot is a customisable bot with various picture related commands. You can choose to either use the link below to add this bot to your server, or host a custom version yourself.
+Mushroom bot is a customisable bot with various picture related commands. You can choose to either use the link below to add this bot to your server, or host a custom version yourself. You can also join our [Discord server](https://discord.gg/Ejtuu2zxGH)!
 
 [Add this bot to your Discord server.](https://discord.com/api/oauth2/authorize?client_id=890578768849158175&permissions=2147534848&scope=bot)
 ## Features
