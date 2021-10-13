@@ -182,7 +182,7 @@ async def picture(ctx, collection:str, mention: typing.Optional[str] = "no_menti
         embed = discord.Embed(title = "{collection} picture".format(collection = collection[:-1]), description = "Hey {mention}, {user} gave you a pretty {collection}!".format(mention = mention, user = ctx.message.author, collection = collection[:-1]))
         image = discord.File(choice, filename = choice.name)
         embed.set_image(url = "attachment://{file}".format(file = choice.name))
-        embed.set_footer(text = "Image submitted by {author}".format(author = author))]
+        embed.set_footer(text = "Image submitted by {author}".format(author = author))
 
     else:
         embed = discord.Embed(title = "{collection} picture".format(collection = collection[:-1]))
