@@ -112,14 +112,14 @@ async def on_message(message):
                     mention_id1 = message_split[message_split_length - 1]
                     mention_id = mention_id1[:-1]
 
-                    embed = discord.Embed(title = "{collection} picture".format(collection = collection), description = "Hey <@!{mention}>, {user} gave you a pretty {collection}!".format(mention = mention_id, user = message.author, collection = collection[-1]))
+                    embed = discord.Embed(title = "{collection} picture".format(collection = collection), description = "Hey <@!{mention}>, {user} gave you a pretty {collection}!".format(mention = mention_id, user = message.author, collection = collection[:-1]))
                     image = discord.File(choice, filename = choice.name)
                     embed.set_image(url = "attachment://{file}".format(file = choice.name))
                     embed.set_footer(text = "Image submitted by {author}".format(author = author))
                     await message.channel.send(file = image, embed = embed)
                 
                 else:
-                    embed = discord.Embed(title = "{collection} picture".format(collection = collection[-1]))
+                    embed = discord.Embed(title = "{collection} picture".format(collection = collection[:-1]))
                     image = discord.File(choice, filename = choice.name)
                     embed.set_image(url = "attachment://{file}".format(file = choice.name))
                     embed.set_footer(text = "Image submitted by {author}".format(author = author))
@@ -179,13 +179,13 @@ async def picture(ctx, collection:str, mention: typing.Optional[str] = "no_menti
         author = await bot.fetch_user(choice.parent.name)
 
     if mention != "no_mention":
-        embed = discord.Embed(title = "{collection} picture".format(collection = collection), description = "Hey {mention}, {user} gave you a pretty {collection}!".format(mention = mention, user = ctx.message.author, collection = collection[-1]))
+        embed = discord.Embed(title = "{collection} picture".format(collection = collection), description = "Hey {mention}, {user} gave you a pretty {collection}!".format(mention = mention, user = ctx.message.author, collection = collection[:-1]))
         image = discord.File(choice, filename = choice.name)
         embed.set_image(url = "attachment://{file}".format(file = choice.name))
         embed.set_footer(text = "Image submitted by {author}".format(author = author))
 
     else:
-        embed = discord.Embed(title = "{collection} picture".format(collection = collection[-1]))
+        embed = discord.Embed(title = "{collection} picture".format(collection = collection[:-1]))
         image = discord.File(choice, filename = choice.name)
         embed.set_image(url = "attachment://{file}".format(file = choice.name))
         embed.set_footer(text = "Image submitted by {author}".format(author = author))
