@@ -49,9 +49,9 @@ def get_setting(name):
 # Thanks to StackOverflow
 # https://stackoverflow.com/questions/7099290/how-to-ignore-hidden-files-using-os-listdir
 def listdir_nohidden(path):
-    for f in os.listdir(path):
-        if not f.startswith('.'):
-            yield f
+    for filename in os.listdir(path):
+        if not filename.startswith('.'):
+            yield filename
 
 picture_dir = os.path.join(run_dir, "pictures")
 collections_list = list(listdir_nohidden(picture_dir))
