@@ -21,6 +21,7 @@ def get_setting(name):
         if name in settings:
             return_value = settings[name]
             return(return_value)
+        
         else:
             new_key = name
             new_value = input(f"{purpose}: ")
