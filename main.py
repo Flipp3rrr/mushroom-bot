@@ -23,8 +23,8 @@ def get_setting(name):
             return(return_value)
         else:
             new_key = name
-            new_value = input("{purpose}: ".format(purpose = purpose))
-            new_dict = {"{key}".format(key = new_key): "{value}".format(value = new_value)}
+            new_value = input(f"{purpose}: ")
+            new_dict = {f"{new_key}": f"{new_value}"}
 
             settings.update(new_dict)
             settings_file = open(settings_file_path, "w+")
@@ -35,8 +35,8 @@ def get_setting(name):
 
     else:
         new_key = name
-        new_value = input("{purpose}: ".format(purpose = purpose))
-        new_dict = {"{key}".format(key = new_key): "{value}".format(value = new_value)}
+        new_value = input(f"{purpose}: ")
+        new_dict = {f"{new_key}": f"{new_value}"}
 
         settings = new_dict
         settings_file = open(settings_file_path, "w+")
@@ -71,8 +71,8 @@ bot.remove_command("help")
 
 @bot.event
 async def on_ready():
-    print("Logged in as {user} ({id})".format(user = bot.user.name, id = bot.user.id))
-    presence = discord.Game("do '{prefix}help'".format(prefix = bot_prefix))
+    print(f"Logged in as {bot.user.name} ({bot.user.id})")
+    presence = discord.Game(f"do '{bot_prefix}help'")
     await bot.change_presence(status=discord.Status.idle, activity=presence)
 
 @bot.event
@@ -115,22 +115,19 @@ async def on_message(message):
                     mention_id1 = message_split[message_split_length - 1]
                     mention_id = mention_id1[:-1]
 
-                    embed = discord.Embed(title = "{collection} picture"
-                        .format(collection = collection[:-1]),
-                        description = "Hey <@!{mention}>, {user} gave you a pretty {collection}!"
-                        .format(mention = mention_id, user = message.author,
-                        collection = collection[:-1]))
+                    embed = discord.Embed(title = f"{collection[:-1]} picture",
+                        description = f"Hey <@!{mention_id}>, {message.author} gave you a pretty \
+                        {collection[:-1]}!")
                     image = discord.File(choice, filename = choice.name)
-                    embed.set_image(url = "attachment://{file}".format(file = choice.name))
-                    embed.set_footer(text = "Image submitted by {author}".format(author = author))
+                    embed.set_image(url = f"attachment://{choice.name}")
+                    embed.set_footer(text = f"Image submitted by {author}")
                     await message.channel.send(file = image, embed = embed)
                 
                 else:
-                    embed = discord.Embed(title = "{collection} picture"
-                        .format(collection = collection[:-1]))
+                    embed = discord.Embed(title = f"{collection[:-1]} picture")
                     image = discord.File(choice, filename = choice.name)
-                    embed.set_image(url = "attachment://{file}".format(file = choice.name))
-                    embed.set_footer(text = "Image submitted by {author}".format(author = author))
+                    embed.set_image(url = f"attachment://{choice.name}")
+                    embed.set_footer(text = f"Image submitted by {author}")
                     await message.channel.send(file = image, embed = embed)
     
     await bot.process_commands(message)
@@ -139,32 +136,29 @@ async def on_message(message):
 async def help(ctx, command: typing.Optional[str] = "default_help"):
     if command == "default_help":
         embed = discord.Embed(title = "Help",
-            description = "My prefix is `{prefix}`, get more informations on specific commands \
-            with `{prefix}help <command>`."
-            .format(prefix = bot_prefix))
+            description = f"My prefix is `{bot_prefix}`, get more informations on specific commands \
+            with `{bot_prefix}help <command>`.")
         embed.add_field(name = "Commands", value = "* `collections`\n* `info`\n* `picture`")
         await ctx.send(embed = embed)
 
     elif command == "collections":
         embed = discord.Embed(title = "Help (collections)",
             description = "Sends a message containing a list of available collections.")
-        embed.add_field(name = "Example", value = "`{prefix}collections`"
-            .format(prefix = bot_prefix))
+        embed.add_field(name = "Example", value = f"`{bot_prefix}collections`")
         await ctx.send(embed = embed)
 
     elif command == "info":
         embed = discord.Embed(title = "Help (info)",
             description = "Sends a message containing relevant information to the bot.")
-        embed.add_field(name = "Example", value = "`{prefix}info`".format(prefix = bot_prefix))
+        embed.add_field(name = "Example", value = f"`{bot_prefix}info`")
         await ctx.send(embed = embed)
 
     elif command == "picture":
         embed = discord.Embed(title = "Help (picture)",
             description = "Sends a random image from the specified collection.")
-        embed.add_field(name = "Example", value = "`{prefix}picture <collection>`"
-            .format(prefix = bot_prefix), inline = True)
-        embed.add_field(name = "Example 2", value = "`pretty <collection>`"
-            .format(prefix = bot_prefix), inline = True)
+        embed.add_field(name = "Example", value = f"`{bot_prefix}picture <collection>`",
+            inline = True)
+        embed.add_field(name = "Example 2", value = "`pretty <collection>`", inline = True)
         await ctx.send(embed = embed)
 
 @bot.command()
@@ -177,9 +171,11 @@ async def collections(ctx):
     # Remove z.misc folder, since you can't acces it with the 'picture' command
     del collections_list[-1]
 
+    pretty_list = "\n * ".join(collections_list)
+
     embed = discord.Embed(title = "Collections",
-        description = "Collections can be specified with or without the 's' at the end.\n{list}"
-        .format(list = "\n * ".join(collections_list)))
+        description = f"Collections can be specified with or without the 's' at the end.\n \
+        {pretty_list}")
     await ctx.send(embed = embed)
 
 @bot.command()
@@ -198,27 +194,25 @@ async def picture(ctx, collection:str, mention: typing.Optional[str] = "no_menti
         author = await bot.fetch_user(choice.parent.name)
 
     if mention != "no_mention":
-        embed = discord.Embed(title = "{collection} picture".format(collection = collection[:-1]),
-            description = "Hey {mention}, {user} gave you a pretty {collection}!"
-            .format(mention = mention, user = ctx.message.author, collection = collection[:-1]))
+        embed = discord.Embed(title = f"{collection[:-1]}", description = f"Hey {mention}, \
+            {ctx.message.author} gave you a pretty {collection[:-1]}")
         image = discord.File(choice, filename = choice.name)
-        embed.set_image(url = "attachment://{file}".format(file = choice.name))
-        embed.set_footer(text = "Image submitted by {author}".format(author = author))
+        embed.set_image(url = f"attachment://{choice.name}")
+        embed.set_footer(text = f"Image submitted by {author}")
 
     else:
-        embed = discord.Embed(title = "{collection} picture".format(collection = collection[:-1]))
+        embed = discord.Embed(title = f"{collection[:-1]} picture")
         image = discord.File(choice, filename = choice.name)
-        embed.set_image(url = "attachment://{file}".format(file = choice.name))
-        embed.set_footer(text = "Image submitted by {author}".format(author = author))
+        embed.set_image(url = f"attachment://{choice.name}")
+        embed.set_footer(text = f"Image submitted by {author}")
 
     await ctx.send(file = image, embed = embed)
 
 @bot.command()
 async def info(ctx):
     embed = discord.Embed(title = "Information",
-    description = "I'm a bot made by Flipp3rrr#6969. I got various picture related commands and \
-        some other fun commands! Find out more about my commands with `{prefix}help`"
-        .format(prefix = bot_prefix))
+        description = f"I'm a bot made by Flipp3rrr#6969. I got various picture related commands \
+        and some other fun commands! Find out more about my commands with `{bot_prefix}help`")
     embed.add_field(name = "Invite", value = bot_invite, inline = False)
     embed.add_field(name = "Discord Server", value = discord_server, inline = True)
     embed.add_field(name = "GitHub", value = github_link, inline = True)
@@ -231,7 +225,7 @@ async def stop(ctx):
         await ctx.send("Stopping bot...")
         await bot.logout()
     else:
-        await ctx.send("Invalid permissions! Your ID is `{id}`, the correct ID is `{author_id}`."
-            .format(id = ctx.message.author.id, author_id = bot_author_id))
+        await ctx.send(f"Invalid permissions! Your ID is `{ctx.message.author.id}`, the correct ID \
+            is `{bot_author_id}`.")
 
 bot.run(bot_token)
