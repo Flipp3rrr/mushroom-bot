@@ -1,11 +1,11 @@
 import os
 import json
-import discord
-from discord.ext import commands
 import random
 import pathlib
 import typing
 import re
+import discord
+from discord.ext import commands
 
 run_dir = os.path.dirname(__file__)
 
