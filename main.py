@@ -1,7 +1,7 @@
 # mushroom-bot, a Discord bot written in Python
 #
 # pylint configuration
-# pylint: disable=C0116, C0325, R0914, R1705, R1732, W0621, W0622
+# pylint: disable=C0114, C0116, C0325, R0914, R1705, R1732, W0621, W0622, W1514
 
 import os
 import json
