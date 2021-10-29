@@ -1,0 +1,6 @@
+{
+    "schedule": "daily",             // daily compression prs
+    "aggressiveCompression": "true", // aggressive (lossy) compression
+    "compressWiki": "true",          // compress wikis
+    "minKBReduced": null             // always pr if there's a reduction in size
+}
