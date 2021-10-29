@@ -1,4 +1,7 @@
-# pylint: disable=C0116, W0622
+# mushroom-bot, a Discord bot written in Python
+#
+# pylint configuration
+# pylint: disable=C0116, C0325, R0914, R1705, R1732, W0621, W0622
 
 import os
 import json
@@ -23,7 +26,7 @@ def get_setting(name):
         if name in settings:
             return_value = settings[name]
             return(return_value)
-        
+
         else:
             new_key = name
             new_value = input(f"{purpose}: ")
@@ -104,7 +107,7 @@ async def on_message(message):
         for collection in collections_list:
             if collection in message_edited:
                 collection_dir = pathlib.Path(picture_dir) / collection
-                
+
                 jpegs = list(collection_dir.glob("**/*.jpg"))
                 choice = random.choice(jpegs)
                 author = bot.get_user(choice.parent.name)
@@ -125,14 +128,14 @@ async def on_message(message):
                     embed.set_image(url = f"attachment://{choice.name}")
                     embed.set_footer(text = f"Image submitted by {author}")
                     await message.channel.send(file = image, embed = embed)
-                
+
                 else:
                     embed = discord.Embed(title = f"{collection[:-1]} picture")
                     image = discord.File(choice, filename = choice.name)
                     embed.set_image(url = f"attachment://{choice.name}")
                     embed.set_footer(text = f"Image submitted by {author}")
                     await message.channel.send(file = image, embed = embed)
-    
+
     await bot.process_commands(message)
 
 @bot.command()
