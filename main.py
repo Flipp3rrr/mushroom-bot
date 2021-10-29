@@ -1,4 +1,4 @@
-# pylint: disable=C0116
+# pylint: disable=C0116, W0622
 
 import os
 import json
