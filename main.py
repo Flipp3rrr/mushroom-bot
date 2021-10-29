@@ -1,11 +1,13 @@
+# pylint: disable=C0116
+
 import os
 import json
 import random
 import pathlib
 import typing
 import re
-import discord
-from discord.ext import commands
+import discord                   # pylint: disable=E0401
+from discord.ext import commands # pylint: disable=E0401
 
 run_dir = os.path.dirname(__file__)
 
@@ -137,8 +139,8 @@ async def on_message(message):
 async def help(ctx, command: typing.Optional[str] = "default_help"):
     if command == "default_help":
         embed = discord.Embed(title = "Help",
-            description = f"My prefix is `{bot_prefix}`, get more informations on specific commands \
-            with `{bot_prefix}help <command>`.")
+            description = f"My prefix is `{bot_prefix}`, get more informations on specific \
+            commands with `{bot_prefix}help <command>`.")
         embed.add_field(name = "Commands", value = "* `collections`\n* `info`\n* `picture`")
         await ctx.send(embed = embed)
 
