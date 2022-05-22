@@ -229,7 +229,7 @@ async def stop(ctx):
     bot_author_id = get_setting("bot_author_id")
     if int(ctx.message.author.id) == int(bot_author_id):
         await ctx.send("Stopping bot...")
-        await bot.logout()
+        await bot.close()
     else:
         await ctx.send(f"Invalid permissions! Your ID is `{ctx.message.author.id}`, the correct ID \
             is `{bot_author_id}`.")
