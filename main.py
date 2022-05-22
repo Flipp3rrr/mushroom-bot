@@ -67,7 +67,9 @@ github_link = get_setting("github_link")
 discord_server = get_setting("discord_server")
 
 intents = discord.Intents.default()
-intents.members = True
+intents.messages        = True
+intents.message_content = True
+intents.members         = True
 
 member_cache_flags = discord.MemberCacheFlags.from_intents(intents)
 
