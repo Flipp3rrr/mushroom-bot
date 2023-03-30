@@ -119,8 +119,8 @@ async def on_message(message):
 
                 if message.mentions:
                     embed = discord.Embed(title = f"{collection[:-1]} picture",
-                        description = f"Hey <@!{message.mentions[0].id}>, {message.author} gave you a pretty \
-                        {collection[:-1]}!")
+                        description = f"Hey <@!{message.mentions[0].id}>, {message.author} \
+                        gave you a pretty {collection[:-1]}!")
                     image = discord.File(choice, filename = choice.name)
                     embed.set_image(url = f"attachment://{choice.name}")
                     embed.set_footer(text = f"Image submitted by {author}")
