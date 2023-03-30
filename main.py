@@ -55,16 +55,16 @@ def get_setting(name):
 # https://stackoverflow.com/questions/7099290/how-to-ignore-hidden-files-using-os-listdir
 def listdir_nohidden(path):
     for filename in os.listdir(path):
-        if not filename.startswith('.'):
+        if not filename.startswith("."):
             yield filename
 
-picture_dir = os.path.join(run_dir, "pictures")
+picture_dir      = os.path.join(run_dir, "pictures")
 collections_list = list(listdir_nohidden(picture_dir))
-bot_token = get_setting("bot_token")
-bot_prefix = get_setting("bot_prefix")
-bot_invite = get_setting("bot_invite")
-github_link = get_setting("github_link")
-discord_server = get_setting("discord_server")
+bot_token        = get_setting("bot_token")
+bot_prefix       = get_setting("bot_prefix")
+bot_invite       = get_setting("bot_invite")
+github_link      = get_setting("github_link")
+discord_server   = get_setting("discord_server")
 
 intents = discord.Intents.default()
 intents.messages        = True
@@ -113,19 +113,14 @@ async def on_message(message):
                 jpegs = list(collection_dir.glob("**/*.jpg"))
                 choice = random.choice(jpegs)
                 author = bot.get_user(choice.parent.name)
+
                 if author is None:
                     author = await bot.fetch_user(choice.parent.name)
 
-                message_split = re.split("@!", message_lowercase)
-                message_split_length = len(message_split)
-
-                if message_split_length != 1:
-                    mention_id1 = message_split[message_split_length - 1]
-                    mention_id = mention_id1[:-1]
-
+                if message.mentions:
                     embed = discord.Embed(title = f"{collection[:-1]} picture",
-                        description = f"Hey <@!{mention_id}>, {message.author} gave you a pretty \
-                        {collection[:-1]}!")
+                        description = f"Hey <@!{message.mentions[0].id}>, {message.author} \
+                        gave you a pretty {collection[:-1]}!")
                     image = discord.File(choice, filename = choice.name)
                     embed.set_image(url = f"attachment://{choice.name}")
                     embed.set_footer(text = f"Image submitted by {author}")
