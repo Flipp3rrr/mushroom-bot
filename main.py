@@ -60,7 +60,6 @@ def listdir_nohidden(path):
 
 picture_dir      = os.path.join(run_dir, "pictures")
 collections_list = list(listdir_nohidden(picture_dir))
-discord_server = get_setting("discord_server")
 bot_token        = get_setting("bot_token")
 bot_prefix       = get_setting("bot_prefix")
 bot_invite       = get_setting("bot_invite")
